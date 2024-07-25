@@ -27,19 +27,33 @@ def get_chargerate_warning_message(charge_rate):
     else:
         return None
 def battery_is_ok(temperature, soc, charge_rate):
+    warnings = []
+
     if is_temperature_out_of_range(temperature):
+        warning = get_temperature_warning_message(temperature)
+        if warning:
+            warnings.append(warning)
         print(f"Temperature is out of range: {temperature}")
-        return False
 
     if is_soc_out_of_range(soc):
+        warning = get_soc_warning_message(soc)
+        if warning:
+            warnings.append(warning)
         print(f"SOC is out of range: {soc}")
-        return False
 
     if is_charge_rate_out_of_range(charge_rate):
+        warning = get_chargerate_warning_message(charge_rate)
+        if warning:
+            warnings.append(warning)
         print(f"Charge rate is out of range: {charge_rate}")
-        return False
 
-    return True
+    if warnings:
+        for warning in warnings:
+            print(warning)
+        return False  # Return False if any warnings are present
+    else:
+        return True  # Return True if no warnings are present
+
 if __name__ == '__main__':
     assert battery_is_ok(25, 70, 0.7) is True
     assert battery_is_ok(50, 85, 0) is False
