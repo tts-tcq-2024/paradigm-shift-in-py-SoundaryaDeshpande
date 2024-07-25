@@ -39,7 +39,7 @@ def battery_is_ok(temperature, soc, charge_rate):
         if warning:
             warnings.append(warning)
         print(f"SOC is out of range :{temperature}")
-    if is_Chargerate_out_of_range(charge_rate):
+    if is_charge_rate_out_of_range(charge_rate):
         warning=get_chargerate_warning_message(charge_rate)
         if warning:
             warnings.append(warning)
