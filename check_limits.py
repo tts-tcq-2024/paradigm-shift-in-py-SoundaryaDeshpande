@@ -14,14 +14,13 @@ def determine_warning_status(value, lower_bound, upper_bound, warning_tolerance)
     warning_lower_limit = lower_bound + warning_tolerance
     warning_upper_limit = upper_bound - warning_tolerance
 
-    if check_if_out_of_range(value, lower_bound, upper_bound):
+    if is_out_of_range(value, lower_bound, upper_bound):
         return 'out_of_range'
-    elif is_below_warning(value, lower_bound, warning_lower_limit):
+    if is_below_warning(value, lower_bound, warning_lower_limit):
         return 'discharge'
-    elif is_above_warning(value, upper_bound, warning_upper_limit):
+    if is_above_warning(value, upper_bound, warning_upper_limit):
         return 'peak'
-    else:
-        return 'in_range'
+    return 'in_range'
 
 def print_warning(category, status):
     messages = {
