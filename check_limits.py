@@ -1,26 +1,30 @@
 def within_range(value, lower_bound, upper_bound):
     return lower_bound <= value <= upper_bound
 
-def is_below_warning(value, lower_bound, warning_lower_limit):
+def is_below_warning(value, warning_lower_limit):
     return value <= warning_lower_limit
 
-def is_above_warning(value, upper_bound, warning_upper_limit):
+def is_above_warning(value, warning_upper_limit):
     return value >= warning_upper_limit
 
-def check_if_out_of_range(value, lower_bound, upper_bound):
-    return value < lower_bound or value > upper_bound
+def evaluate_out_of_range(value, lower_bound, upper_bound):
+    return not within_range(value, lower_bound, upper_bound)
 
-def determine_warning_status(value, lower_bound, upper_bound, warning_tolerance):
-    warning_lower_limit = lower_bound + warning_tolerance
-    warning_upper_limit = upper_bound - warning_tolerance
-
-    if check_if_out_of_range(value, lower_bound, upper_bound):
-        return 'out_of_range'
-    if is_below_warning(value, lower_bound, warning_lower_limit):
+def evaluate_warning(value, warning_lower_limit, warning_upper_limit):
+    if is_below_warning(value, warning_lower_limit):
         return 'discharge'
-    if is_above_warning(value, upper_bound, warning_upper_limit):
+    if is_above_warning(value, warning_upper_limit):
         return 'peak'
     return 'in_range'
+
+def get_warning_status(value, lower_bound, upper_bound, warning_tolerance):
+    warning_lower_limit = lower_bound + warning_tolerance
+    warning_upper_limit = upper_bound - warning_tolerance
+    
+    if evaluate_out_of_range(value, lower_bound, upper_bound):
+        return 'out_of_range'
+    
+    return evaluate_warning(value, warning_lower_limit, warning_upper_limit)
 
 def print_warning(category, status):
     messages = {
@@ -32,7 +36,7 @@ def is_temperature_out_of_range(temperature):
     lower_bound = 0
     upper_bound = 45
     warning_tolerance = 0.05 * upper_bound
-    status = determine_warning_status(temperature, lower_bound, upper_bound, warning_tolerance)
+    status = get_warning_status(temperature, lower_bound, upper_bound, warning_tolerance)
     print_warning('temperature', status)
     return status == 'out_of_range'
 
@@ -40,7 +44,7 @@ def is_soc_out_of_range(soc):
     lower_bound = 20
     upper_bound = 80
     warning_tolerance = 0.05 * upper_bound
-    status = determine_warning_status(soc, lower_bound, upper_bound, warning_tolerance)
+    status = get_warning_status(soc, lower_bound, upper_bound, warning_tolerance)
     print_warning('SOC', status)
     return status == 'out_of_range'
 
@@ -48,7 +52,7 @@ def is_charge_rate_out_of_range(charge_rate):
     lower_bound = 0
     upper_bound = 0.8
     warning_tolerance = 0.05 * upper_bound
-    status = determine_warning_status(charge_rate, lower_bound, upper_bound, warning_tolerance)
+    status = get_warning_status(charge_rate, lower_bound, upper_bound, warning_tolerance)
     print_warning('charge rate', status)
     return status == 'out_of_range'
 
