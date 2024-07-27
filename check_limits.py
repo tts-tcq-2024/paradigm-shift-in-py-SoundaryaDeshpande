@@ -14,7 +14,7 @@ def determine_warning_status(value, lower_bound, upper_bound, warning_tolerance)
     warning_lower_limit = lower_bound + warning_tolerance
     warning_upper_limit = upper_bound - warning_tolerance
 
-    if is_out_of_range(value, lower_bound, upper_bound):
+    if check_if_out_of_range(value, lower_bound, upper_bound):
         return 'out_of_range'
     if is_below_warning(value, lower_bound, warning_lower_limit):
         return 'discharge'
