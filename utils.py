@@ -1,3 +1,4 @@
+
 def within_range(value, lower_bound, upper_bound):
     return lower_bound <= value <= upper_bound
 
