@@ -1,5 +1,6 @@
 from utils import within_range, is_below_warning, is_above_warning, evaluate_out_of_range
 
+
 def evaluate_warning(value, warning_lower_limit, warning_upper_limit):
     if is_below_warning(value, warning_lower_limit):
         return 'discharge'
