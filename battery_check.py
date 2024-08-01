@@ -1,4 +1,4 @@
-from warnings import get_warning_status, print_warning
+from warning_handler import get_warning_status, print_warning
 
 def is_temperature_out_of_range(temperature):
     lower_bound = 0
